@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black45),
       ),
       // home: const MyHomePage(),
-      home:  RegisterScreen(),
+      home:  LoadingScreen(),
     );
   }
 }
