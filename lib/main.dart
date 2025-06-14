@@ -3,7 +3,28 @@ import 'package:closed_network/LoginScreen.dart';
 import 'package:closed_network/RegisterEmailScreen.dart';
 import 'package:closed_network/RegisterScreen.dart';
 import 'package:flutter/material.dart';
+//Black – main background
+//
+// TealAccent – primary accent
+//
+// Charcoal – for cards and surfaces
+//
+// Dim Grey – for borders and dividers
+//
+// White – for primary text
+//
+// Light Grey – for secondary text
+//
+// TealAccent (again) – for icons and highlights
 
+
+
+
+
+
+//Font Name	Style	Use for
+// Sora	Sleek, digital Gen Z vibe	Headlines
+// Chakra Petch	Futuristic, edgy	Titles or highlights
 void main() {
   runApp(const MyApp());
 }

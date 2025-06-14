@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,13 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formKey,
             child: Column(
               children: [
-                const Text(
+                 Text(
                   "Welcome Back",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                    style: GoogleFonts.chakraPetch(
+                        textStyle: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                        )
+                    )
                 ),
                 const SizedBox(height: 32),
                 CustomTextField(
@@ -73,12 +76,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // TODO: Forgot password logic
                     },
-                    child: const Text(
+                    child:  Text(
                       'Forgot Password?',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontWeight: FontWeight.bold,
-                      ),
+                        style: GoogleFonts.sora(
+                            textStyle: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                            )
+                        )
                     ),
                   ),
                 ),
@@ -96,12 +102,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    child: const Text(
+                    child:  Text(
                       'Sign In',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                        style: GoogleFonts.sora(
+                            textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black
+                            )
+                        )
                     ),
                   ),
                 ),
@@ -151,12 +160,14 @@ class GoogleButton extends StatelessWidget {
             width: 20,
           ),
           const SizedBox(width: 20),
-          const Text(
+          Text(
             'Sign in with Google',
-            style: TextStyle(
-              color: Colors.white, // White text
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+            style: GoogleFonts.sora(
+                textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                )
             ),
           ),
         ],

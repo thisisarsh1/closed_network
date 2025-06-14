@@ -2,7 +2,7 @@ import 'package:closed_network/LoginScreen.dart';
 import 'package:closed_network/RegisterEmailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -31,14 +31,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+               Text(
                 'Create your account',
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                  height: 1.9,
-                  color: Colors.white,
-                ),
+                 style: GoogleFonts.chakraPetch(
+                 textStyle: TextStyle(
+                   fontSize: 35,
+                   fontWeight: FontWeight.bold,
+                   color: Colors.white
+                 )
+               ),
               ),
               const SizedBox(height: 16),
               CustomTextField(
@@ -58,11 +59,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return LoginScreen();
                       },));
                     },
-                    child: const Text(
+                    child:  Text(
                       'Already have an account?',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+                      style: GoogleFonts.sora(
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white
+                        )
                       ),
                     ),
                   ),
@@ -96,12 +99,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Next',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.sora(
+                          textStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black
+                          )
                       ),
                     ),
                   ),

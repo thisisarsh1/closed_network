@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class GoogleButton extends StatelessWidget {
   final VoidCallback onPressed;
 
@@ -31,12 +31,14 @@ class GoogleButton extends StatelessWidget {
             width: 20,
           ),
           const SizedBox(width: 20),
-          const Text(
+          Text(
             'Sign in with Google',
-            style: TextStyle(
-              color: Colors.white, // White text
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+            style: GoogleFonts.sora(
+                textStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                )
             ),
           ),
         ],
@@ -57,13 +59,15 @@ class RegisterEmailScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+               Text(
                 "Use your official (.edu.in) email ID to join the squad — no outsiders allowed!",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                ),
+                 style: GoogleFonts.chakraPetch(
+                     textStyle: TextStyle(
+                         fontSize: 30,
+                         fontWeight: FontWeight.bold,
+                         color: Colors.white
+                     )
+                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),

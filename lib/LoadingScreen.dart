@@ -27,7 +27,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       backgroundColor: Colors.black, // Set background to black
       body: Center(
         child: LoadingAnimationWidget.fourRotatingDots(
-          color: Colors.white,
+          color: Colors.tealAccent,
           size: 200,
         ),
       ),
