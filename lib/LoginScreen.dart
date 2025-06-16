@@ -1,3 +1,4 @@
+import 'package:closed_network/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -117,7 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
                 GoogleButton(
                   onPressed: () {
-                    // TODO: Implement Google sign-in logic
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return HomePage();
+                  },));
                   },
                 ),
               ],

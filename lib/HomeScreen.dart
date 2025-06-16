@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'CommunitiesScreen.dart';
+import 'Components/avatar.dart';
+import 'Homeposts.dart';
+import 'ProfileScreen.dart';
+import 'SearchScreen.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,14 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     Center(
-      child: Text(
-        'Posts',
-        style: GoogleFonts.sora(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: HomePosts(),
     ),
     Center(
       child: MasonryGridViewWidget(),
@@ -38,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     ),
     Center(
       child: Text(
-        'Events',
+        'Community',
         style: GoogleFonts.sora(
           color: Colors.white,
           fontSize: 24,
@@ -47,14 +44,7 @@ class _HomePageState extends State<HomePage> {
       ),
     ),
     Center(
-      child: Text(
-        'Profile',
-        style: GoogleFonts.sora(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: Profile()
     ),
   ];
 
@@ -102,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           ),
           _drawerTile(Icons.person, "Profile"),
           _drawerTile(Icons.people, "Communities"),
-          _drawerTile(Icons.event, "Events"),
+          _drawerTile(Icons.event, "event"),
           _drawerTile(Icons.emoji_events, "Achievements"),
           _drawerTile(Icons.settings, "Settings"),
           _drawerTile(Icons.logout, "Logout"),
@@ -143,10 +133,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu, color: Colors.tealAccent),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
+          builder: (context) =>
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: InkWell(child: Avatar(imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZcaNJcoE9hJ20j1K8H7Ml6872NyPN5zaJjQ&s'),
+                    onTap: () => Scaffold.of(context).openDrawer(), ),
+              )
+
+
+
         ),
       ),
       body: PageView(
@@ -181,7 +176,7 @@ class _HomePageState extends State<HomePage> {
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.people),
+              icon: Icon(Icons.search_rounded),
               label: '',
             ),
             BottomNavigationBarItem(
@@ -189,7 +184,7 @@ class _HomePageState extends State<HomePage> {
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.event),
+              icon: Icon(Icons.group_rounded),
               label: '',
             ),
             BottomNavigationBarItem(

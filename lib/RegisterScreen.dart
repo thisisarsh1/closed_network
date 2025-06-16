@@ -1,3 +1,4 @@
+import 'package:closed_network/Components/SnackBar.dart';
 import 'package:closed_network/LoginScreen.dart';
 import 'package:closed_network/RegisterEmailScreen.dart';
 import 'package:flutter/material.dart';
@@ -80,13 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       if (_nameController.text.trim().isEmpty ||
                           _dobController.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content:
-                            Text("Please enter both Name and Date of Birth."),
-                            backgroundColor: Colors.redAccent,
-                          ),
-                        );
+                        AwesomeSnackbar.error(context, "No name?", "Put Your name there inorder to create an account !!");
                       } else {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => RegisterEmailScreen(),

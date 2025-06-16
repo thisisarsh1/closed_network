@@ -1,3 +1,4 @@
+import 'package:closed_network/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class GoogleButton extends StatelessWidget {
@@ -74,7 +75,9 @@ class RegisterEmailScreen extends StatelessWidget {
               GoogleButton(
                 onPressed: () {
                   // Handle Google sign-in
-                  print("Google sign-in pressed");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return HomePage();
+                  },));
                 },
               ),
             ],
