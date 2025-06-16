@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:closed_network/Components/avatar.dart';
 
+import 'EditProfile.dart';
+
 
 
 class Profile extends StatelessWidget {
@@ -77,19 +79,54 @@ class Profile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userProfile['name'],
-                    style: GoogleFonts.sora(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              userProfile['name'],
+                              style: GoogleFonts.chakraPetch(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              userProfile['handle'],
+                              style: GoogleFonts.sora(fontSize: 15, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return EditProfilePage(initialData: userProfile,);
+                          },));
+                        },
+                        icon: const Icon(Icons.edit, size: 16, color: Colors.white),
+                        label: Text(
+                          "Edit",
+                          style: GoogleFonts.sora(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          backgroundColor: const Color(0xFF1A1A1A),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    userProfile['handle'],
-                    style: GoogleFonts.sora(fontSize: 15, color: Colors.grey),
-                  ),
+
                   const SizedBox(height: 10),
                   Text(
                     userProfile['bio'],

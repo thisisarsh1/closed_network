@@ -1,3 +1,4 @@
+import 'package:closed_network/Components/TapLike.dart';
 import 'package:closed_network/LoadingScreen.dart';
 import 'package:closed_network/LoginScreen.dart';
 import 'package:closed_network/RegisterEmailScreen.dart';

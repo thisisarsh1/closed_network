@@ -1,4 +1,5 @@
 import 'package:closed_network/Components/LikeBtn.dart';
+import 'package:closed_network/Components/TapLike.dart';
 import 'package:closed_network/Components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,7 @@ final List<Map<String, dynamic>> dummyPosts = [
     'username': 'LunaChaser',
     'handle': '@luna_chase',
     'time': '2h',
-    'text': 'Feeling the cosmic vibes ✨🌌 #ClosedNetwork',
+    'text': 'Feeling the cosmic vibes ✨🌌 #ClosedNetwork ',
     'image': 'https://picsum.photos/id/1011/400/200',
     'likes': 120,
     'comments': 35,
@@ -38,7 +39,11 @@ final List<Map<String, dynamic>> dummyPosts = [
     'username': 'PixelDaze',
     'handle': '@pixelateddream',
     'time': '5h',
-    'text': 'Mood board just got an upgrade 🚀📱',
+    'text': 'Mood board just got an upgrade 🚀📱Y’all seen the new Closed Network dropY’'
+        'all seen the new Closed Network dropY’all seen the new Closed Network dropY’all '
+        'seen the new Closed Network dropY’all seen the new Closed Network dropY’all seen '
+        'the new Closed Network dropY’all seen the new Closed Network dropY’all seen the new Closed'
+        ' Network dropY’all seen the new Closed Network drop',
     'image': 'https://picsum.photos/id/1014/400/200',
     'likes': 60,
     'comments': 20,
@@ -138,19 +143,32 @@ final List<Map<String, dynamic>> dummyPosts = [
                             children: [
                               Text(
                                 post['username'],
-                                style: GoogleFonts.sora(
+                                style: GoogleFonts.chakraPetch(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                '${post['handle']} · ${post['time']}',
-                                style: GoogleFonts.sora(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '${post['handle']} ·',
+                                    style: GoogleFonts.sora(
+                                      color: Colors.tealAccent,
+                                      fontSize: 12,
+                                    ),
+
+                                  ),
+                                  Text(
+                                    ' ${post['time']}',
+                                    style: GoogleFonts.sora(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              )
+
                             ],
                           ),
                         ],
@@ -164,13 +182,14 @@ final List<Map<String, dynamic>> dummyPosts = [
                         ),
                       ),
                       const SizedBox(height: 12),
-                      ClipRRect(
+                      TapLike(image: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image.network(
                           post['image'],
                           fit: BoxFit.cover,
                         ),
-                      ),
+                      ), onLike: (){}),
+
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

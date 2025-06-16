@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'CommunityScreen.dart';
 import 'Components/avatar.dart';
 import 'Homeposts.dart';
 import 'ProfileScreen.dart';
@@ -34,14 +35,7 @@ class _HomePageState extends State<HomePage> {
       ),
     ),
     Center(
-      child: Text(
-        'Community',
-        style: GoogleFonts.sora(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+        child: CommunityPage()
     ),
     Center(
       child: Profile()
