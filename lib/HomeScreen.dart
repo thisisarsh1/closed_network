@@ -1,5 +1,8 @@
+import 'package:closed_network/MessagingScreen.dart';
+import 'package:closed_network/NotificationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Data/UserData.dart';
 
 import 'CommunityScreen.dart';
 import 'Components/avatar.dart';
@@ -58,42 +61,72 @@ class _HomePageState extends State<HomePage> {
   Drawer _buildDrawer() {
     return Drawer(
       backgroundColor: Colors.black,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Name',
-                  style: GoogleFonts.chakraPetch(
-                    color: Colors.tealAccent,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Profile Header
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Avatar(
+                    imageUrl:
+                    '${user.profileImageUrl}',
+                    size: 18,
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'College: Your College Name',
-                  style: GoogleFonts.sora(
-                    color: Colors.white,
-                    fontSize: 16,
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${user.name}",
+                        style: GoogleFonts.chakraPetch(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "${user.handle}",
+                        style: GoogleFonts.sora(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          _drawerTile(Icons.person, "Profile"),
-          _drawerTile(Icons.people, "Communities"),
-          _drawerTile(Icons.event, "event"),
-          _drawerTile(Icons.emoji_events, "Achievements"),
-          _drawerTile(Icons.settings, "Settings"),
-          _drawerTile(Icons.logout, "Logout"),
-        ],
+            Divider(color: Colors.grey.shade800),
+            // Menu Items
+            _drawerTile(Icons.person_outline, "Profile"),
+            _drawerTile(Icons.people_outline, "Communities"),
+            _drawerTile(Icons.calendar_today_outlined, "Events"),
+            _drawerTile(Icons.emoji_events_outlined, "Achievements"),
+            _drawerTile(Icons.settings_outlined, "Settings"),
+            Spacer(),
+            Divider(color: Colors.grey.shade800),
+            // Logout
+            ListTile(
+              leading: Icon(Icons.logout, color: Colors.redAccent),
+              title: Text(
+                "Logout",
+                style: GoogleFonts.sora(
+                  color: Colors.redAccent,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onTap: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
+
 
   ListTile _drawerTile(IconData icon, String title) {
     return ListTile(
@@ -127,17 +160,47 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         leading: Builder(
-          builder: (context) =>
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: InkWell(child: Avatar(imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZcaNJcoE9hJ20j1K8H7Ml6872NyPN5zaJjQ&s'),
-                    onTap: () => Scaffold.of(context).openDrawer(), ),
-              )
-
-
-
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: InkWell(
+              child: Avatar(
+                imageUrl:
+                '${user.profileImageUrl}',
+              ),
+              onTap: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.notifications_none, color: Colors.white, size: 25),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return NotificationPage();
+                    },));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.chat_bubble_outline, color: Colors.white, size: 25),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return MessagePage();
+                    },));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
+
+
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,

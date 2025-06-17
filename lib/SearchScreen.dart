@@ -8,9 +8,68 @@ import 'Data/PostData.dart';
 import 'Functions/Like/like_bloc.dart';
 import 'models/Posts_model.dart';
 
+class ChoiceChipWidget extends StatefulWidget {
+  const ChoiceChipWidget({super.key});
+
+  @override
+  _ChoiceChipWidgetState createState() => _ChoiceChipWidgetState();
+}
+
+class _ChoiceChipWidgetState extends State<ChoiceChipWidget> {
+  int? _selectedIndex; // Track the selected index
+
+  final List<String> _options = [
+    'Canteen',
+    'Labs',
+    'Fests',
+    'Coding',
+    'Workshops',
+    'Library',
+    'Sports',
+    'Hackathons'
+  ];
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50, // Set a fixed height for the horizontal list
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List<Widget>.generate(
+          _options.length,
+              (int index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: ChoiceChip(
+                label: Text(_options[index]),
+                selected: _selectedIndex == index,
+                onSelected: (bool selected) {
+                  setState(() {
+                    _selectedIndex = selected ? index : null;
+                  });
+                },
+                selectedColor: Colors.tealAccent,
+                backgroundColor: Colors.grey[850],
+                labelStyle: TextStyle(
+                  color: _selectedIndex == index ? Colors.black : Colors.white70,
+                  fontWeight: FontWeight.bold,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: const BorderSide(color: Colors.transparent),
+                ),
+              ),
+            );
+          },
+        ).toList(),
+      ),
+    );
+  }
+}
 
 class MasonryGridViewWidget extends StatefulWidget {
-  MasonryGridViewWidget({super.key});
+  const MasonryGridViewWidget({super.key});
 
   @override
   State<MasonryGridViewWidget> createState() => _MasonryGridViewWidgetState();
@@ -47,6 +106,11 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
                 ),
               ),
             ),
+            // ChoiceChipWidget for categories
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              child: ChoiceChipWidget(),
+            ),
             // Masonry Grid
             Expanded(
               child: MasonryGridView.builder(
@@ -63,11 +127,11 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              BlocProvider(
-                                create: (context) => LikeBloc(initialLike: post.likes),
-                                child: PostDetailScreen(post: post),
-                              ),
+                          builder: (_) => BlocProvider(
+                            create: (context) =>
+                                LikeBloc(initialLike: post.likes),
+                            child: PostDetailScreen(post: post),
+                          ),
                         ),
                       );
                     },
@@ -77,12 +141,10 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
                         borderRadius: BorderRadius.circular(16),
                         child: Hero(
                           tag: post.id,
-                          child: Image.network(
-                              post.imageUrl, fit: BoxFit.cover),
+                          child: Image.network(post.imageUrl, fit: BoxFit.cover),
                         ),
                       ),
                     ),
-
                   );
                 },
               ),
@@ -92,25 +154,4 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
       ),
     );
   }
-
-  List<String> images = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZcaNJcoE9hJ20j1K8H7Ml6872NyPN5zaJjQ&s',
-    'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmF0dXJlfGVufDB8fDB8fHwy',
-    'https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1540206395-68808572332f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZcaNJcoE9hJ20j1K8H7Ml6872NyPN5zaJjQ&s',
-    'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmF0dXJlfGVufDB8fDB8fHwy',
-    'https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1540206395-68808572332f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZcaNJcoE9hJ20j1K8H7Ml6872NyPN5zaJjQ&s',
-    'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmF0dXJlfGVufDB8fDB8fHwy',
-    'https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1540206395-68808572332f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-    'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fG5hdHVyZXxlbnwwfHwwfHx8Mg%3D%3D',
-  ];
 }
