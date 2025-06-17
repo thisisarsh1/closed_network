@@ -1,13 +1,13 @@
+import 'package:closed_network/Functions/Like/like_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TapLike extends StatefulWidget {
   final Widget image;
-  final VoidCallback onLike;
 
   const TapLike({
     super.key,
     required this.image,
-    required this.onLike,
   });
 
   @override
@@ -34,7 +34,9 @@ class _TapLikeState extends State<TapLike> with SingleTickerProviderStateMixin {
   void _handleDoubleTap() {
     setState(() => _showHeart = true);
     _controller.forward(from: 0);
-    widget.onLike();
+
+    /// 🔥 Trigger the LikePressed event in the bloc
+    context.read<LikeBloc>().add(LikePressed());
 
     Future.delayed(const Duration(milliseconds: 600), () {
       if (mounted) setState(() => _showHeart = false);
@@ -49,23 +51,33 @@ class _TapLikeState extends State<TapLike> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onDoubleTap: _handleDoubleTap,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          widget.image,
-          if (_showHeart)
-            ScaleTransition(
-              scale: _scaleAnimation,
-              child: const Icon(
-                Icons.favorite,
-                color: Colors.redAccent,
-                size: 80,
-              ),
-            ),
-        ],
-      ),
+    return BlocBuilder<LikeBloc, LikeState>(
+      builder: (context, state) {
+        int likeCount = 0;
+        if (state is LikeInitial) {
+          likeCount = state.like;
+        }
+
+        return GestureDetector(
+          onDoubleTap: _handleDoubleTap,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              widget.image,
+              if (_showHeart)
+                ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: const Icon(
+                    Icons.favorite,
+                    color: Colors.redAccent,
+                    size: 80,
+                  ),
+                ),
+
+            ],
+          ),
+        );
+      },
     );
   }
 }

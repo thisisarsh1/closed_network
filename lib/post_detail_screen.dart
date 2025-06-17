@@ -1,7 +1,9 @@
 import 'package:closed_network/Components/LikeBtn.dart';
 import 'package:closed_network/Components/avatar.dart';
+import 'package:closed_network/Functions/Like/like_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Components/TapLike.dart';
 import 'models/Posts_model.dart';
@@ -29,13 +31,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     _currentLikes = widget.post.likes;
   }
 
-  void _handleLike() {
-    HapticFeedback.lightImpact();
-    setState(() {
-      _isLiked = !_isLiked;
-      _currentLikes += _isLiked ? 1 : -1;
-    });
-  }
+
 
   void _handleFollow() {
     setState(() {
@@ -64,7 +60,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A0A),
-      body: Stack(
+      body:  BlocProvider(
+  create: (context) => LikeBloc(initialLike: widget.post.likes),
+  child: Stack(
         children: [
           // Main Scrollable Content
           SingleChildScrollView(
@@ -75,7 +73,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               children: [
                 // Post Image
                 TapLike(
-                  image: ClipRRect(
+                  image:
+                  ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
                       widget.post.imageUrl,
@@ -83,7 +82,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       width: double.infinity,
                     ),
                   ),
-                  onLike: () { }, // <-- does nothing!
+
                 ),
 
 
@@ -173,36 +172,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 const SizedBox(height: 20),
 
                 // Stats (Likes & Comments Count)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    children: [
-                      Icon(Icons.favorite, color: Colors.pinkAccent, size: 18),
-                      const SizedBox(width: 6),
-                      Text('$_currentLikes',
-                          style: const TextStyle(color: Colors.white)),
-                      const SizedBox(width: 20),
-                      Icon(Icons.mode_comment_outlined,
-                          color: Colors.cyanAccent, size: 18),
-                      const SizedBox(width: 6),
-                      Text('${widget.post.comments}',
-                          style: const TextStyle(color: Colors.white)),
-                      // Repost Count
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.repeat, color: Colors.lightBlueAccent, size: 18),
-                            const SizedBox(width: 6),
-                            Text('${widget.post.reposts} Reposts',
-                                style: const TextStyle(color: Colors.white)),
-                          ],
-                        ),
-                      ),
 
-                    ],
-                  ),
-                ),
 
                 const SizedBox(height: 20),
 
@@ -213,12 +183,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      IconButton(
-                        icon: Icon(
-                          _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                          color: _isLiked ? Colors.pinkAccent : Colors.white,
-                        ),
-                        onPressed: _handleLike,
+                      Row(
+                        children: [
+                          LikeBtn(initialLikes: widget.post.likes),
+                          const SizedBox(width: 4),
+
+                        ],
                       ),
                       IconButton(
                         icon: const Icon(Icons.chat_bubble_outline, color: Colors.cyanAccent),
@@ -327,6 +297,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           ),
         ],
       ),
+),
+
     );
   }
 }

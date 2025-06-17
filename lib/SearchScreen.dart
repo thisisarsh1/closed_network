@@ -1,9 +1,11 @@
 import 'package:closed_network/post_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Data/PostData.dart';
+import 'Functions/Like/like_bloc.dart';
 import 'models/Posts_model.dart';
 
 
@@ -50,9 +52,9 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
               child: MasonryGridView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 gridDelegate:
-                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
+                const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
@@ -61,7 +63,11 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => PostDetailScreen(post: post),
+                          builder: (_) =>
+                              BlocProvider(
+                                create: (context) => LikeBloc(initialLike: post.likes),
+                                child: PostDetailScreen(post: post),
+                              ),
                         ),
                       );
                     },
@@ -71,7 +77,8 @@ class _MasonryGridViewWidgetState extends State<MasonryGridViewWidget> {
                         borderRadius: BorderRadius.circular(16),
                         child: Hero(
                           tag: post.id,
-                          child: Image.network(post.imageUrl, fit: BoxFit.cover),
+                          child: Image.network(
+                              post.imageUrl, fit: BoxFit.cover),
                         ),
                       ),
                     ),
