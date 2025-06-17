@@ -1,4 +1,4 @@
-import 'models/Posts_model.dart';
+import '../models/Posts_model.dart';
 
 // final List<PostModel> posts = [
 //

@@ -99,13 +99,37 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         children: [
                           Avatar(),
                           const SizedBox(width: 10),
-                          Text(
-                            '@${widget.post.username}',
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.post.username,
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    widget.post.handle,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    '• ${widget.post.time}',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -121,8 +145,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         child: Text(
                           _isFollowed ? 'Following' : 'Follow',
                           style: GoogleFonts.inter(
-                            color:
-                            _isFollowed ? Colors.grey[300] : Colors.black,
+                            color: _isFollowed ? Colors.grey[300] : Colors.black,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -130,6 +153,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     ],
                   ),
                 ),
+
 
                 const SizedBox(height: 10),
 
@@ -163,12 +187,26 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       const SizedBox(width: 6),
                       Text('${widget.post.comments}',
                           style: const TextStyle(color: Colors.white)),
+                      // Repost Count
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.repeat, color: Colors.lightBlueAccent, size: 18),
+                            const SizedBox(width: 6),
+                            Text('${widget.post.reposts} Reposts',
+                                style: const TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
 
                 const SizedBox(height: 20),
 
+                // Action Buttons
                 // Action Buttons
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -177,26 +215,35 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     children: [
                       IconButton(
                         icon: Icon(
-                          _isLiked
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
+                          _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
                           color: _isLiked ? Colors.pinkAccent : Colors.white,
                         ),
                         onPressed: _handleLike,
                       ),
                       IconButton(
-                        icon: const Icon(Icons.chat_bubble_outline,
-                            color: Colors.cyanAccent),
+                        icon: const Icon(Icons.chat_bubble_outline, color: Colors.cyanAccent),
                         onPressed: _focusCommentField,
                       ),
                       IconButton(
-                        icon: const Icon(Icons.share_outlined,
-                            color: Colors.greenAccent),
+                        icon: const Icon(Icons.repeat, color: Colors.lightBlueAccent),
+                        onPressed: () {
+                          HapticFeedback.mediumImpact();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Post reposted!"),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.share_outlined, color: Colors.greenAccent),
                         onPressed: () => HapticFeedback.mediumImpact(),
                       ),
                     ],
                   ),
                 ),
+
               ],
             ),
           ),

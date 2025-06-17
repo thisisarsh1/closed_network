@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:closed_network/Components/avatar.dart';
+import 'package:intl/intl.dart';
 
+import 'Data/UserData.dart';
 import 'EditProfile.dart';
+import 'models/UserModel.dart';
 
 
 
 class Profile extends StatelessWidget {
    Profile({super.key});
 
-  final Map<String, dynamic> userProfile = const {
-    'name': 'Rehbar Khan',
-    'handle': '@rehbarkhan',
-    'bio': 'Builder @ Learno | Co-founder | Web3 Dev | Flutter & AI enthusiast',
-    'location': 'India',
-    'website': 'https://rehbarkhan.dev',
-    'joinDate': 'Joined August 2020',
-    'following': 340,
-    'followers': 1120,
-    'profileImageUrl': 'https://i.imgur.com/6VBx3io.png',
-    'coverImageUrl': 'https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=80',
-  };
+
 
   final List<Map<String, String>> posts = List.generate(
     20,
@@ -47,7 +39,7 @@ class Profile extends StatelessWidget {
               background: Stack(
                 children: [
                   Image.network(
-                    userProfile['coverImageUrl'],
+                    user.coverImageUrl,
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
@@ -87,7 +79,7 @@ class Profile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              userProfile['name'],
+                              '${user.name}',
                               style: GoogleFonts.chakraPetch(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
@@ -96,7 +88,7 @@ class Profile extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              userProfile['handle'],
+                              '${user.handle}',
                               style: GoogleFonts.sora(fontSize: 15, color: Colors.grey),
                             ),
                           ],
@@ -104,32 +96,53 @@ class Profile extends StatelessWidget {
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return EditProfilePage(initialData: userProfile,);
-                          },));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return EditProfilePage(initialData: {
+                                  'name': user.name,
+                                  'handle': user.handle,
+                                  'bio': user.bio,
+                                  'location': user.location,
+                                  'website': user.website,
+                                  'profileImageUrl': user.profileImageUrl ?? '',
+                                  'coverImageUrl': user.coverImageUrl,
+                                });
+                              },
+                            ),
+                          );
                         },
-                        icon: const Icon(Icons.edit, size: 16, color: Colors.white),
-                        label: Text(
-                          "Edit",
-                          style: GoogleFonts.sora(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                        ),
                         style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          backgroundColor: const Color(0xFF1A1A1A),
+                          backgroundColor: const Color(0xFF1E1E1E), // subtle grey-black
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
+                          shadowColor: Colors.black.withOpacity(0.2),
+                          elevation: 1,
                         ),
-                      )
+                        icon: Icon(Icons.edit, color: Colors.grey[300]),
+                        label: Text(
+                          "Edit Profile",
+                          style: GoogleFonts.sora(
+                            color: Colors.grey[300],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.4,
+                          ),
+                        ),
+                      ),
+
+
+
+
                     ],
                   ),
 
                   const SizedBox(height: 10),
                   Text(
-                    userProfile['bio'],
+                    '${user.bio}',
                     style: GoogleFonts.sora(fontSize: 15, color: Colors.white),
                   ),
                   const SizedBox(height: 12),
@@ -138,33 +151,35 @@ class Profile extends StatelessWidget {
                       const Icon(Icons.location_on, size: 16, color: Colors.grey),
                       const SizedBox(width: 4),
                       Text(
-                        userProfile['location'],
+                        '${user.location}',
                         style: GoogleFonts.sora(fontSize: 14, color: Colors.grey),
                       ),
                       const SizedBox(width: 12),
                       const Icon(Icons.link, size: 16, color: Colors.grey),
                       const SizedBox(width: 4),
                       Text(
-                        userProfile['website'],
+                        '${user.website}',
                         style: GoogleFonts.sora(fontSize: 14, color: Colors.blue),
                       ),
                     ],
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    userProfile['joinDate'],
-                    style: GoogleFonts.sora(fontSize: 14, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 14),
+
+            Text(
+            'Joined ${DateFormat('MMMM yyyy').format(user.joinDate)}',
+            style: GoogleFonts.sora(color: Colors.grey),
+          ),
+
+          const SizedBox(height: 14),
                   Row(
                     children: [
                       Text(
-                        '${userProfile['following']} Following',
+                        '${user.following} Following',
                         style: GoogleFonts.sora(fontSize: 15, color: Colors.white),
                       ),
                       const SizedBox(width: 16),
                       Text(
-                        '${userProfile['followers']} Followers',
+                        '${user.followers} Followers',
                         style: GoogleFonts.sora(fontSize: 15, color: Colors.white),
                       ),
                     ],
@@ -204,7 +219,7 @@ class Profile extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              userProfile['name'],
+                              '${user.name}',
                               style: GoogleFonts.sora(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -212,7 +227,7 @@ class Profile extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              userProfile['handle'],
+                              '${user.handle}',
                               style: GoogleFonts.sora(color: Colors.grey, fontSize: 13),
                             ),
                             const Spacer(),

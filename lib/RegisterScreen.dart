@@ -83,9 +83,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _dobController.text.trim().isEmpty) {
                         AwesomeSnackbar.error(context, "No name?", "Put Your name there inorder to create an account !!");
                       } else {
-                        Navigator.push(context, MaterialPageRoute(
+                        Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) => RegisterEmailScreen(),
                         ));
+
                       }
                     },
                     style: ElevatedButton.styleFrom(

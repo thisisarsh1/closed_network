@@ -75,7 +75,7 @@ class RegisterEmailScreen extends StatelessWidget {
               GoogleButton(
                 onPressed: () {
                   // Handle Google sign-in
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
                     return HomePage();
                   },));
                 },

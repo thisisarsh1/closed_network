@@ -1,12 +1,14 @@
 import 'package:closed_network/Components/LikeBtn.dart';
 import 'package:closed_network/Components/TapLike.dart';
 import 'package:closed_network/Components/avatar.dart';
+import 'package:closed_network/post_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 
 import 'SearchScreen.dart';
-import 'data.dart';
+import 'Data/PostData.dart';
+
 class HomePosts extends StatelessWidget {
   const HomePosts({super.key});
 
@@ -21,7 +23,10 @@ class HomePosts extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 0,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -78,16 +83,44 @@ class HomePosts extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
+
+                      // TapLike(
+                      //   image: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(12),
+                      //     child: Image.network(
+                      //       post.imageUrl,
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      //
+                      //   onLike: () {},
+                      // ),
+
                       TapLike(
                         image: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            post.imageUrl,
-                            fit: BoxFit.cover,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      PostDetailScreen(post: post),
+                                ),
+                              );
+                            },
+
+                            child: Image.network(
+                              post.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                        onLike: () {},
+                        onLike: () {
+
+                        },
                       ),
+
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,8 +140,11 @@ class HomePosts extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.chat_bubble_outline,
-                                  color: Colors.tealAccent, size: 18),
+                              Icon(
+                                Icons.chat_bubble_outline,
+                                color: Colors.tealAccent,
+                                size: 18,
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 '${post.comments}',
@@ -121,8 +157,11 @@ class HomePosts extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.repeat,
-                                  color: Colors.tealAccent, size: 18),
+                              Icon(
+                                Icons.repeat,
+                                color: Colors.tealAccent,
+                                size: 18,
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 '${post.reposts}',
@@ -133,8 +172,7 @@ class HomePosts extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Icon(Icons.share_outlined,
-                              color: Colors.tealAccent),
+                          Icon(Icons.share_outlined, color: Colors.tealAccent),
                         ],
                       ),
                     ],
