@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 
 import 'SearchScreen.dart';
-
+import 'data.dart';
 class HomePosts extends StatelessWidget {
   const HomePosts({super.key});
 
@@ -21,7 +21,7 @@ class HomePosts extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -48,25 +48,23 @@ class HomePosts extends StatelessWidget {
                                 ),
                               ),
                               Row(
-                                // children: [
-                                //   Text(
-                                //     '${post['handle']} ·',
-                                //     style: GoogleFonts.sora(
-                                //       color: Colors.tealAccent,
-                                //       fontSize: 12,
-                                //     ),
-                                //
-                                //   ),
-                                //   Text(
-                                //     ' ${post['time']}',
-                                //     style: GoogleFonts.sora(
-                                //       color: Colors.white,
-                                //       fontSize: 12,
-                                //     ),
-                                //   ),
-                                // ],
-                              )
-
+                                children: [
+                                  Text(
+                                    '${post.handle} ·',
+                                    style: GoogleFonts.sora(
+                                      color: Colors.tealAccent,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' ${post.time}',
+                                    style: GoogleFonts.sora(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ],
@@ -80,14 +78,16 @@ class HomePosts extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      TapLike(image: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          post.imageUrl,
-                          fit: BoxFit.cover,
+                      TapLike(
+                        image: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            post.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ), onLike: (){}),
-
+                        onLike: () {},
+                      ),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,42 +96,45 @@ class HomePosts extends StatelessWidget {
                             children: [
                               const LikeButton(),
                               const SizedBox(width: 4),
-                              // Text(
-                              //   '${post['likes']}',
-                              //   style: GoogleFonts.sora(
-                              //     fontSize: 13,
-                              //     color: Colors.grey[300],
-                              //   ),
-                              // ),
+                              Text(
+                                '${post.likes}',
+                                style: GoogleFonts.sora(
+                                  fontSize: 13,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.chat_bubble_outline, color: Colors.tealAccent, size: 18),
+                              Icon(Icons.chat_bubble_outline,
+                                  color: Colors.tealAccent, size: 18),
                               const SizedBox(width: 4),
-                              // Text(
-                              //   '${post['comments']}',
-                              //   style: GoogleFonts.sora(
-                              //     fontSize: 13,
-                              //     color: Colors.grey[300],
-                              //   ),
-                              // ),
+                              Text(
+                                '${post.comments}',
+                                style: GoogleFonts.sora(
+                                  fontSize: 13,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.repeat, color: Colors.tealAccent, size: 18),
+                              Icon(Icons.repeat,
+                                  color: Colors.tealAccent, size: 18),
                               const SizedBox(width: 4),
-                              // Text(
-                              //   '${post['reposts']}',
-                              //   style: GoogleFonts.sora(
-                              //     fontSize: 13,
-                              //     color: Colors.grey[300],
-                              //   ),
-                              // ),
+                              Text(
+                                '${post.reposts}',
+                                style: GoogleFonts.sora(
+                                  fontSize: 13,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
                             ],
                           ),
-                          Icon(Icons.share_outlined, color: Colors.tealAccent),
+                          Icon(Icons.share_outlined,
+                              color: Colors.tealAccent),
                         ],
                       ),
                     ],
@@ -139,10 +142,10 @@ class HomePosts extends StatelessWidget {
                 ),
               ),
               const Divider(
-                color: Colors.grey, // Color of the divider
-                thickness: 0.5, // Thickness of the divider
-                indent: 0, // Indent from the left
-                endIndent: 0, // Indent from the right
+                color: Colors.grey,
+                thickness: 0.5,
+                indent: 0,
+                endIndent: 0,
               ),
             ],
           );
