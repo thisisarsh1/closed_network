@@ -1,12 +1,7 @@
-import 'package:closed_network/Components/TapLike.dart';
-import 'package:closed_network/LoadingScreen.dart';
-import 'package:closed_network/LoginScreen.dart';
-import 'package:closed_network/RegisterEmailScreen.dart';
-import 'package:closed_network/RegisterScreen.dart';
+
 import 'package:flutter/material.dart';
 
 import 'HomeScreen.dart';
-import 'MessageScreen/Message_view.dart';
 
 //Black – main background
 //
@@ -49,7 +44,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black45),
       ),
       // home: const MyHomePage(),
-      home:  LoadingScreen(),
+      home:  HomePage(),
     );
   }
 }

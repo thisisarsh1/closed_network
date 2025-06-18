@@ -7,6 +7,7 @@ import 'Data/UserData.dart';
 import 'CommunityScreen.dart';
 import 'Components/avatar.dart';
 import 'Homeposts.dart';
+import 'NewsScreen.dart';
 import 'ProfileScreen.dart';
 import 'SearchScreen.dart';
 
@@ -28,14 +29,7 @@ class _HomePageState extends State<HomePage> {
       child: MasonryGridViewWidget(),
     ),
     Center(
-      child: Text(
-        'Messages',
-        style: GoogleFonts.sora(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+        child: CollegeUpdatesScreen()
     ),
     Center(
         child: CommunityPage()
@@ -150,55 +144,58 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
+        leadingWidth: 50, // tighter control over avatar space
+        leading: Builder(
+          builder: (context) => Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: InkWell(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              borderRadius: BorderRadius.circular(20),
+              child: Avatar(
+                imageUrl: user.profileImageUrl,
+                size: 18,
+              ),
+            ),
+          ),
+        ),
         title: Text(
           'Closed_Network',
           style: GoogleFonts.chakraPetch(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 26,
-            letterSpacing: 1.2,
+            fontSize: 19,
+            letterSpacing: 0.5,
           ),
         ),
-        leading: Builder(
-          builder: (context) => Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: InkWell(
-              child: Avatar(
-                imageUrl:
-                '${user.profileImageUrl}',
-              ),
-              onTap: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
-        ),
+        centerTitle: false, // false keeps natural balance with leading & actions
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.notifications_none, color: Colors.white, size: 25),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return NotificationPage();
-                    },));
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.chat_bubble_outline, color: Colors.white, size: 25),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return MessagePage();
-                    },));
-                  },
-                ),
-              ],
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: IconButton(
+              icon: const Icon(Icons.notifications_none, color: Colors.white, size: 24),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => NotificationPage()),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: IconButton(
+              icon: const Icon(Icons.chat_bubble_outline, color: Colors.white, size: 24),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => MessagePage()),
+                );
+              },
             ),
           ),
         ],
       ),
+
 
 
       body: PageView(
@@ -237,7 +234,7 @@ class _HomePageState extends State<HomePage> {
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
+              icon: Icon(Icons.newspaper_rounded),
               label: '',
             ),
             BottomNavigationBarItem(

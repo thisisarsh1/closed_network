@@ -9,6 +9,6 @@ final UserData user = UserData(
   joinDate: DateTime(2020, 8, 1),
   following: 340,
   followers: 1120,
-  profileImageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
+  profileImageUrl: 'https://randomuser.me/api/portraits/men/52.jpg',
   coverImageUrl: 'https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=80',
 );

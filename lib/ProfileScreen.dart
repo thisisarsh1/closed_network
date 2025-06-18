@@ -151,7 +151,7 @@ class Profile extends StatelessWidget {
                         children: [
                           Text(
                             '${user.following}',
-                            style: GoogleFonts.sora(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.sora(fontSize: 15, color: Colors.tealAccent, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             'Following',
@@ -164,7 +164,7 @@ class Profile extends StatelessWidget {
                         children: [
                           Text(
                             '${user.followers}',
-                            style: GoogleFonts.sora(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.sora(fontSize: 15, color: Colors.tealAccent, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             'Followers',
@@ -270,14 +270,14 @@ class Profile extends StatelessWidget {
             children: [
               Icon(
                 isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                color: isPositive ? Colors.greenAccent : Colors.redAccent,
+                color: isPositive ? Colors.tealAccent : Colors.redAccent,
                 size: 20,
               ),
               Text(
                 '${delta.abs().toStringAsFixed(1)}%',
                 style: GoogleFonts.sora(
                   fontSize: 13,
-                  color: isPositive ? Colors.greenAccent : Colors.redAccent,
+                  color: isPositive ? Colors.tealAccent : Colors.redAccent,
                 ),
               ),
             ],
