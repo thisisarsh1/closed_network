@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'Data/NewsData.dart';
 import 'Data/StoryData.dart';
 import 'Functions/Like/like_bloc.dart';
+import 'Functions/Vote/vote_bloc.dart';
 class CollegeUpdatesScreen extends StatefulWidget {
   const CollegeUpdatesScreen({super.key});
 
@@ -126,7 +127,10 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                           VoteBTN(initialVotes: 10),
+                           BlocProvider(
+  create: (context) => VoteBloc( votes: 10),
+  child: VoteBTN(initialVotes: 9),
+),
                             const Spacer(),
                             if (update.isEvent)
                               ElevatedButton(

@@ -1,4 +1,6 @@
+import 'package:closed_network/Functions/Vote/vote_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class VoteBTN extends StatefulWidget {
@@ -23,65 +25,50 @@ class _VoteBTNState extends State<VoteBTN> {
   }
 
   void handleUpvote() {
-    setState(() {
-      if (voteType == VoteType.upvoted) {
-        votes -= 1;
-        voteType = VoteType.none;
-      } else if (voteType == VoteType.downvoted) {
-        votes += 2;
-        voteType = VoteType.upvoted;
-      } else {
-        votes += 1;
-        voteType = VoteType.upvoted;
-      }
-    });
+    context.read<VoteBloc>().add(UpVoted());
   }
 
   void handleDownvote() {
-    setState(() {
-      if (voteType == VoteType.downvoted) {
-        votes += 1;
-        voteType = VoteType.none;
-      } else if (voteType == VoteType.upvoted) {
-        votes -= 2;
-        voteType = VoteType.downvoted;
-      } else {
-        votes -= 1;
-        voteType = VoteType.downvoted;
-      }
-    });
+    context.read<VoteBloc>().add(DownVoted());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: Icon(
-            Icons.arrow_upward,
-            color:
-            voteType == VoteType.upvoted ? Colors.tealAccent : Colors.grey,
-          ),
-          onPressed: handleUpvote,
-        ),
-        Text(
-          '$votes',
-          style: GoogleFonts.sora(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.arrow_downward,
-            color: voteType == VoteType.downvoted
-                ? Colors.redAccent
-                : Colors.grey,
-          ),
-          onPressed: handleDownvote,
-        ),
-      ],
+    return BlocBuilder<VoteBloc, VoteState>(
+      builder: (context, state) {
+        final currentState  = state as VoteInitial;
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.arrow_upward,
+                color: currentState.UpVoted ? Colors.tealAccent : Colors
+                    .grey,
+              ),
+              onPressed: handleUpvote,
+            ),
+            Text(
+              "${currentState.Votes.toInt() }",
+              style: GoogleFonts.sora(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.arrow_downward,
+                color: currentState.DownVoted
+                    ? Colors.redAccent
+                    : Colors
+                    .grey,
+              ),
+              onPressed: handleDownvote,
+            ),
+          ],
+
+        );
+      },
     );
   }
 }
