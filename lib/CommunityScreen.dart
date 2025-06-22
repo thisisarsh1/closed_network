@@ -3,6 +3,7 @@ import 'package:closed_network/CreateCommunity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'CommunityDetails.dart';
 import 'Components/SnackBar.dart';
 
 class CommunityPage extends StatefulWidget {
@@ -60,104 +61,109 @@ class _CommunityPageState extends State<CommunityPage> {
         itemCount: communities.length,
         itemBuilder: (context, index) {
           final community = communities[index];
-          return Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: const Color(0xFF191919),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.black),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Row
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Avatar(
-                      imageUrl: 'https://imgs.search.brave.com/_RFe93b14qzEH6CAMiAwHvv5o7l3MKqcrTVeklQMzYA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d29ybGR2ZWN0b3Js/b2dvLmNvbS9sb2dv/cy9mbHV0dGVyLWxv/Z28uc3Zn',
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            community['name'],
-                            style: GoogleFonts.sora(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '${community['members']} members',
-                            style: GoogleFonts.sora(
-                              fontSize: 13,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
+          return InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDetailsPage(community: community,),));
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFF191919),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header Row
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Avatar(
+                        imageUrl: 'https://imgs.search.brave.com/_RFe93b14qzEH6CAMiAwHvv5o7l3MKqcrTVeklQMzYA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d29ybGR2ZWN0b3Js/b2dvLmNvbS9sb2dv/cy9mbHV0dGVyLWxv/Z28uc3Zn',
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          communities[index]['applied'] = !(communities[index]['applied'] ?? false);
-                        });
-                        if (communities[index]['applied']==true){
-                          AwesomeSnackbar.info(context, "You Have Applied to ${communities[index]['name']} !", "The Admin of the Community will review your application!");
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: (community['applied'] ?? false)
-                            ? Colors.teal
-                            : Colors.tealAccent,
-                        foregroundColor:(community['applied'] ?? false)
-                            ? Colors.white
-                            : Colors.black,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              community['name'],
+                              style: GoogleFonts.sora(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${community['members']} members',
+                              style: GoogleFonts.sora(
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Text((community['applied'] ?? false) ? "Applied" : "Apply",style: TextStyle(fontWeight: FontWeight.bold),),
-                    ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            communities[index]['applied'] = !(communities[index]['applied'] ?? false);
+                          });
+                          if (communities[index]['applied']==true){
+                            AwesomeSnackbar.info(context, "You Have Applied to ${communities[index]['name']} !", "The Admin of the Community will review your application!");
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: (community['applied'] ?? false)
+                              ? Colors.teal
+                              : Colors.tealAccent,
+                          foregroundColor:(community['applied'] ?? false)
+                              ? Colors.white
+                              : Colors.black,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: Text((community['applied'] ?? false) ? "Applied" : "Apply",style: TextStyle(fontWeight: FontWeight.bold),),
+                      ),
 
-                  ],
-                ),
-
-                const SizedBox(height: 12),
-
-                // Description
-                Text(
-                  community['description'],
-                  style: GoogleFonts.sora(
-                    fontSize: 14,
-                    color: Colors.white,
+                    ],
                   ),
-                ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 12),
 
-                // Tags
-                Wrap(
-                  spacing: 8,
-                  children: List<Widget>.from(
-                    community['tags'].map(
-                          (tag) => Chip(
-                        label: Text(tag),
-                        backgroundColor: Colors.grey[850],
-                        labelStyle: GoogleFonts.sora(color: Colors.white),
-                        side: BorderSide.none,
+                  // Description
+                  Text(
+                    community['description'],
+                    style: GoogleFonts.sora(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Tags
+                  Wrap(
+                    spacing: 8,
+                    children: List<Widget>.from(
+                      community['tags'].map(
+                            (tag) => Chip(
+                          label: Text(tag),
+                          backgroundColor: Colors.grey[850],
+                          labelStyle: GoogleFonts.sora(color: Colors.white),
+                          side: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

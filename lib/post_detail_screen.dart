@@ -59,6 +59,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: const Color(0xFF0A0A0A),
       body:  BlocProvider(
   create: (context) => LikeBloc(initialLike: widget.post.likes),

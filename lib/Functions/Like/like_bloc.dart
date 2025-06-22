@@ -8,13 +8,20 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
   LikeBloc({required int initialLike,bool initialIsLiked =false})
       : super(LikeInitial(like: initialLike, isLiked: false)) {
     on<LikePressed>((event, emit) {
-      if (state is LikeInitial) {
+      final current = state as LikeInitial;
+
+      if (state is LikeInitial&&!current.isLiked) {
         final current = state as LikeInitial;
         final newIsLiked = !current.isLiked;
-        final newLikeCount = newIsLiked ? current.like + 1 : current.like - 1;
+        final newLikeCount = current.like + 1;
 
         emit(LikeInitial(like: newLikeCount, isLiked: newIsLiked));
       }
+      else if (state is LikeInitial&&current.isLiked){
+        emit(LikeInitial(like: current.like-1, isLiked: !current.isLiked));
+
+      }
     });
+
   }
 }

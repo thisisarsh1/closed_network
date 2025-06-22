@@ -35,14 +35,7 @@ class Profile extends StatelessWidget {
                   height: 230,
                   fit: BoxFit.cover,
                 ),
-                Positioned(
-                  top: 40,
-                  left: 12,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
+
                 Positioned(
                   bottom: 0,
                   left: 20,

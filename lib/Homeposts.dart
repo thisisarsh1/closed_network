@@ -3,9 +3,11 @@ import 'package:closed_network/Components/TapLike.dart';
 import 'package:closed_network/Components/avatar.dart';
 import 'package:closed_network/post_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'CreatePostScreen.dart';
 import 'Functions/Like/like_bloc.dart';
 import 'SearchScreen.dart';
 import 'Data/PostData.dart';
@@ -16,6 +18,53 @@ class HomePosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CreatePostScreen(),
+            ),
+          );
+        },
+        child: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              colors: [Colors.tealAccent, Colors.cyanAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 25,
+                spreadRadius: 7,
+                offset: const Offset(0, 4),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.8),
+                blurRadius: 10,
+                offset: const Offset(0, -2),
+              ),
+            ],
+            border: Border.all(color: Colors.white, width: 2),
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.add,
+              color: Colors.black,
+              size: 30,
+            ),
+          ),
+        ),
+      ).animate().scale(duration: 300.ms).fadeIn(),
+
+
+
+
       backgroundColor: Colors.black,
       body: ListView.builder(
         itemCount: posts.length,
@@ -94,24 +143,52 @@ class HomePosts extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             child: GestureDetector(
                               onTap: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        PostDetailScreen(post: post),
+                                    builder: (context) => PostDetailScreen(post: post),
                                   ),
                                 );
                               },
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // Skeleton
+                                  Container(
+                                    width: double.infinity,
 
-                              child: Image.network(
-                                post.imageUrl,
-                                fit: BoxFit.cover,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[900],
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  )
+                                      .animate(onPlay: (controller) => controller.repeat())
+                                      .shimmer(duration: 1.2.seconds)
+                                      .fadeIn(duration: 400.ms),
+
+                                  // Image with fade animation
+                                  Image.network(
+                                    post.imageUrl,
+                                    width: double.infinity,
+
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return AnimatedSwitcher(
+                                          duration: 500.ms,
+                                          child: child,
+                                        );
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-
                         ),
+
 
                         const SizedBox(height: 12),
                         Row(
