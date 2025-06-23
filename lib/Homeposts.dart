@@ -205,7 +205,7 @@ class HomePosts extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.chat_bubble_outline,
-                                  color: Colors.tealAccent,
+                                  color: Colors.grey,
                                   size: 18,
                                 ),
                                 const SizedBox(width: 4),
@@ -222,7 +222,7 @@ class HomePosts extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.repeat,
-                                  color: Colors.tealAccent,
+                                  color: Colors.grey,
                                   size: 18,
                                 ),
                                 const SizedBox(width: 4),
@@ -236,7 +236,7 @@ class HomePosts extends StatelessWidget {
                               ],
                             ),
                             Icon(
-                                Icons.share_outlined, color: Colors.tealAccent),
+                                Icons.share_outlined, color: Colors.grey),
                           ],
                         ),
                       ],

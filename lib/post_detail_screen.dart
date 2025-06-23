@@ -192,11 +192,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         ],
                       ),
                       IconButton(
-                        icon: const Icon(Icons.chat_bubble_outline, color: Colors.cyanAccent),
+                        icon: const Icon(Icons.chat_bubble_outline, color: Colors.grey),
                         onPressed: _focusCommentField,
                       ),
                       IconButton(
-                        icon: const Icon(Icons.repeat, color: Colors.lightBlueAccent),
+                        icon: const Icon(Icons.repeat, color: Colors.grey),
                         onPressed: () {
                           HapticFeedback.mediumImpact();
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -208,7 +208,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         },
                       ),
                       IconButton(
-                        icon: const Icon(Icons.share_outlined, color: Colors.greenAccent),
+                        icon: const Icon(Icons.share_outlined, color: Colors.grey),
                         onPressed: () => HapticFeedback.mediumImpact(),
                       ),
                     ],

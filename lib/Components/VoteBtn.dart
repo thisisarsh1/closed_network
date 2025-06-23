@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class VoteBTN extends StatefulWidget {
-  final int initialVotes;
 
-  const VoteBTN({super.key, required this.initialVotes});
+
+  const VoteBTN({super.key});
 
   @override
   State<VoteBTN> createState() => _VoteBTNState();
@@ -21,7 +21,6 @@ class _VoteBTNState extends State<VoteBTN> {
   @override
   void initState() {
     super.initState();
-    votes = widget.initialVotes;
   }
 
   void handleUpvote() {

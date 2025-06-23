@@ -5,6 +5,7 @@ class SlideToActWidget extends StatefulWidget {
   final Future<void> Function() onSubmit;
   final String text;
   final bool enabled;
+
   const SlideToActWidget({
     super.key,
     required this.onSubmit,
@@ -24,8 +25,8 @@ class _SlideToActWidgetState extends State<SlideToActWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SlideAction(
-        enabled: widget.enabled,
         key: _slideActionKey,
+        enabled: widget.enabled,
         text: widget.text,
         textColor: Colors.black,
         innerColor: Colors.white,
@@ -35,7 +36,7 @@ class _SlideToActWidgetState extends State<SlideToActWidget> {
           color: Colors.black,
         ),
         onSubmit: () async {
-          // Do not call reset here, so the widget stays in the submitted state
+          await widget.onSubmit(); // ✅ Now it calls the passed function
         },
       ),
     );

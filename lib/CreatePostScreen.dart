@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:closed_network/Components/SlideToAct.dart';
+import 'package:closed_network/Components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'Components/CircularWordCounter.dart'; // Make sure this import path matches your project
+import 'Components/CircularWordCounter.dart';
+import 'Data/UserData.dart'; // Make sure this import path matches your project
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -55,7 +57,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         backgroundColor: Colors.black,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.tealAccent),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.grey),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -77,18 +79,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.tealAccent,
-                      ),
-                      child: const Icon(Icons.person, color: Colors.black),
-                    ),
+                    Avatar(imageUrl:user.profileImageUrl,),
                     const SizedBox(width: 10),
                     Text(
-                      "@you",
+                      "${user.handle}",
                       style: GoogleFonts.sora(
                         fontSize: 15,
                         color: Colors.white.withOpacity(0.8),
@@ -186,8 +180,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     onSubmit: () async {
                       // Post submission logic here
                       print("Submitted: ${_descController.text}");
+
+                      await Future.delayed(const Duration(seconds: 1));
+                      Navigator.pop(context);
                     },
-                    text: 'Post',
+
+                    text: 'Slide To POST',
                     enabled: isSlideEnabled,
                   ),
                 )
