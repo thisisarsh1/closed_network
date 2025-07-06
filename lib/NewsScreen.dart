@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:closed_network/Components/StoryAvatar.dart';
 import 'package:closed_network/Components/VoteBtn.dart';
 import 'package:closed_network/StoryViewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'Data/NewsData.dart';
 import 'Data/StoryData.dart';
 import 'Functions/Like/like_bloc.dart';
@@ -19,17 +23,39 @@ class CollegeUpdatesScreen extends StatefulWidget {
 class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
   String selectedYear = "4";
 
+  /// Ensures the URL has a scheme and is encoded
+  String _safeUrl(String raw) {
+    final withScheme = raw.startsWith('http') ? raw : 'https://$raw';
+    return Uri.encodeFull(withScheme);
+  }
+
+  /// Tries to launch the URL; shows a snackbar if it fails
+  Future<void> _openLink(BuildContext ctx, String url) async {
+    final uri = Uri.parse(_safeUrl(url));
+
+    final launched = await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!launched && ctx.mounted) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        const SnackBar(content: Text('Could not open link')),
+      );
+      log('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final filteredUpdates =
-    updates.where((u) => u.year == selectedYear).toList();
+    final filteredUpdates = updates.where((u) => u.year == selectedYear).toList();
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Stories
+          // Stories ─────────────────────────────────────────────
           SizedBox(
             height: 125,
             child: ListView.separated(
@@ -45,13 +71,11 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       InkWell(
-                        child: StoryAvatar(imageUrl: story.image, size: 35),
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
+                            builder: (_) {
                               return BlocProvider(
-                                create: (context) =>
-                                    LikeBloc(initialLike: story.likes),
+                                create: (_) => LikeBloc(initialLike: story.likes),
                                 child: StoryViewScreen(
                                   stories: stories,
                                   startIndex: index,
@@ -60,6 +84,7 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
                             },
                           ));
                         },
+                        child: StoryAvatar(imageUrl: story.image, size: 35),
                       ),
                       const SizedBox(height: 4),
                       SizedBox(
@@ -68,10 +93,9 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
                           story.title,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.sora(
-                              color: Colors.white, fontSize: 11),
+                          style: GoogleFonts.sora(color: Colors.white, fontSize: 11),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );
@@ -79,7 +103,7 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
             ),
           ),
 
-          // Dropdown filter
+          // Year filter ──────────────────────────────────────────
           Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(right: 16),
@@ -87,31 +111,23 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
               dropdownColor: Colors.grey.shade900,
               value: selectedYear,
               style: GoogleFonts.sora(color: Colors.white),
-              underline: Container(),
+              underline: const SizedBox.shrink(),
               iconEnabledColor: Colors.tealAccent,
               borderRadius: BorderRadius.circular(12),
-              items: ['1', '2', '3', '4'].map((String year) {
-                return DropdownMenuItem<String>(
-                  value: year,
-                  child: Text('$year Year'),
-                );
+              items: ['1', '2', '3', '4'].map((year) {
+                return DropdownMenuItem(value: year, child: Text('$year Year'));
               }).toList(),
-              onChanged: (val) {
-                setState(() {
-                  selectedYear = val!;
-                });
-              },
+              onChanged: (val) => setState(() => selectedYear = val!),
             ),
           ),
 
-          // Updates List
+          // Updates list ────────────────────────────────────────
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              itemCount: filteredUpdates.length, // ✅ FIXED HERE
+              itemCount: filteredUpdates.length,
               itemBuilder: (context, index) {
                 final update = filteredUpdates[index];
-                final vote = update.votes;
 
                 return Card(
                   color: const Color(0xFF1A1A1A),
@@ -145,12 +161,11 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
                           children: [
                             BlocProvider(
                               key: ValueKey('$selectedYear-$index'),
-                              create: (context) =>
-                                  VoteBloc(votes: vote.toDouble()),
-                              child: VoteBTN(),
+                              create: (_) => VoteBloc(votes: update.votes.toDouble()),
+                              child: const VoteBTN(),
                             ),
                             const Spacer(),
-                            if (update.isEvent)
+                            if (update.isDownload)
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.tealAccent,
@@ -159,9 +174,9 @@ class _CollegeUpdatesScreenState extends State<CollegeUpdatesScreen> {
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () => _openLink(context, update.link!),
                                 child: Text(
-                                  "Join Now",
+                                  "Download Now",
                                   style: GoogleFonts.sora(fontSize: 13),
                                 ),
                               ),

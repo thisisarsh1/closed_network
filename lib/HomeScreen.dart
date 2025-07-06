@@ -1,3 +1,4 @@
+import 'package:closed_network/AboutScreen.dart';
 import 'package:closed_network/MessagingScreen.dart';
 import 'package:closed_network/NotificationScreen.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'Homeposts.dart';
 import 'NewsScreen.dart';
 import 'ProfileScreen.dart';
 import 'SearchScreen.dart';
+import 'SettingScreen.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -95,11 +97,20 @@ class _HomePageState extends State<HomePage> {
             ),
             Divider(color: Colors.grey.shade800),
             // Menu Items
-            _drawerTile(Icons.person_outline, "Profile"),
+            _drawerTile(Icons.person_outline, "Profile",),
             _drawerTile(Icons.people_outline, "Communities"),
             _drawerTile(Icons.calendar_today_outlined, "Events"),
-            _drawerTile(Icons.emoji_events_outlined, "Achievements"),
-            _drawerTile(Icons.settings_outlined, "Settings"),
+            _drawerTile(Icons.emoji_events_outlined, "FAQ",onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AboutScreen();
+              },));
+            }),
+            _drawerTile(Icons.settings_outlined, "Settings", onTap:(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SettingsScreen();
+              },));
+            } ),
+
             Spacer(),
             Divider(color: Colors.grey.shade800),
             // Logout
@@ -122,7 +133,11 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  ListTile _drawerTile(IconData icon, String title) {
+  ListTile _drawerTile(
+      IconData icon,
+      String title, {
+        VoidCallback? onTap,
+      }) {
     return ListTile(
       leading: Icon(icon, color: Colors.tealAccent),
       title: Text(
@@ -132,9 +147,11 @@ class _HomePageState extends State<HomePage> {
           fontSize: 18,
         ),
       ),
-      onTap: () {},
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+      onTap: onTap,               // <- pass it through
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

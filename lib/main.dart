@@ -1,4 +1,5 @@
 
+import 'package:closed_network/LoadingScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'HomeScreen.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black45),
       ),
       // home: const MyHomePage(),
-      home:  HomePage(),
+      home:  LoadingScreen(),
     );
   }
 }

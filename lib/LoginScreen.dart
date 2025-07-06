@@ -118,10 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
                 GoogleButton(
                   onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                    return HomePage();
-                  },));
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) =>  HomePage()),
+                          (route) => false,  // remove every previous route
+                    );
                   },
+
                 ),
               ],
             ),
