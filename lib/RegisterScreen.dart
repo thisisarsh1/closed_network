@@ -10,7 +10,9 @@ class RegisterScreen extends StatefulWidget {
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
+void register(){
 
+}
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
@@ -21,7 +23,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _dobController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,8 +84,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _dobController.text.trim().isEmpty) {
                         AwesomeSnackbar.error(context, "No name?", "Put Your name there inorder to create an account !!");
                       } else {
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) => RegisterEmailScreen(),
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => RegisterEmailScreen(name:_nameController.text.trim() ,),
                         ));
 
                       }

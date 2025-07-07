@@ -1,8 +1,10 @@
+import 'package:closed_network/Authentication/Email.dart';
+
 import '../models/UserModel.dart';
 
 final UserData user = UserData(
-  name: 'Rehbar Khan',
-  handle: '@rehbarkhan',
+  name: '${authService.value.currentUser?.displayName}',
+  handle: '${authService.value.currentUser?.email}',
   bio: 'Builder @ Learno | Co-founder | Web3 Dev | Flutter & AI enthusiast',
   location: 'India',
   website: 'https://rehbarkhan.dev',

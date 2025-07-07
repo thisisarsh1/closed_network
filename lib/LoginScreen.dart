@@ -1,6 +1,10 @@
+import 'package:closed_network/Authentication/Email.dart';
 import 'package:closed_network/HomeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'Components/SnackBar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,11 +25,27 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _handleSignIn() {
+  Future<void> _handleSignIn() async {
     if (_formKey.currentState?.validate() ?? false) {
-      // TODO: Implement sign-in logic
-      print("Email: ${_emailController.text}");
-      print("Password: ${_passwordController.text}");
+      try{
+        await authService.value.signIn(email: _emailController.text, password: _passwordController.text);
+        AwesomeSnackbar.success(
+            context, 'Welcome back Bruv 🙌🏻 !!','Enjoy the App');
+
+         if(
+        authService.value.isLoggedIn
+        ){
+           Navigator.of(context).pushAndRemoveUntil(
+             MaterialPageRoute(builder: (_) =>  HomePage()),
+                 (route) => false,  // remove every previous route
+           );
+        }
+      }on FirebaseException catch(e){
+        AwesomeSnackbar.error(
+            context, 'Bruv Enter the correct Email and Password', 'I hope its Your Account !🧐');
+      }
+
+
     }
   }
 

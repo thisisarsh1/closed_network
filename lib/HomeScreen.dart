@@ -1,8 +1,11 @@
 import 'package:closed_network/AboutScreen.dart';
+import 'package:closed_network/Authentication/Email.dart';
+import 'package:closed_network/LoadingScreen.dart';
 import 'package:closed_network/MessagingScreen.dart';
 import 'package:closed_network/NotificationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Components/SnackBar.dart';
 import 'Data/UserData.dart';
 
 import 'CommunityScreen.dart';
@@ -124,7 +127,18 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              onTap: () {},
+              onTap: () async {
+
+                if(authService.value.isLoggedIn){
+                  authService.value.signOut();
+                  AwesomeSnackbar.error(
+                      context, 'LoggedOut Bruv!', 'hope to see you again !');
+                  await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return LoadingScreen();
+                  },));
+                }
+
+              },
             ),
           ],
         ),
@@ -165,14 +179,13 @@ class _HomePageState extends State<HomePage> {
         leading: Builder(
           builder: (context) => Padding(
             padding: const EdgeInsets.only(left: 12.0),
-            child: InkWell(
-              onTap: () => Scaffold.of(context).openDrawer(),
-              borderRadius: BorderRadius.circular(20),
-              child: Avatar(
-                imageUrl: user.profileImageUrl,
-                size: 18,
-              ),
-            ),
+
+              child: IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white, size: 24), onPressed: () { Scaffold.of(context).openDrawer();
+              print(authService.value.currentUser);},
+
+              )
+
           ),
         ),
         title: Text(
