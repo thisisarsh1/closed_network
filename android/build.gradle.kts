@@ -19,3 +19,14 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+    plugins {
+        id("com.google.gms.google-services") version "4.4.3" apply false
+    }
+
+// BEFORE (cause of conflict)
+//buildscript {
+//    dependencies {
+//        classpath("com.google.gms:google-services:4.3.15") // ⟵ REMOVE THIS
+//    }
+//}

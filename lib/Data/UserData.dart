@@ -1,4 +1,4 @@
-import 'package:closed_network/Authentication/Email.dart';
+import 'package:closed_network/Authentication/ManualAuth.dart';
 
 import '../models/UserModel.dart';
 
@@ -8,7 +8,7 @@ final UserData user = UserData(
   bio: 'Builder @ Learno | Co-founder | Web3 Dev | Flutter & AI enthusiast',
   location: 'India',
   website: 'https://rehbarkhan.dev',
-  joinDate: DateTime(2020, 8, 1),
+  joinDate: authService.value.currentUser?.metadata.creationTime,
   following: 340,
   followers: 1120,
   profileImageUrl: 'https://randomuser.me/api/portraits/men/52.jpg',

@@ -1,4 +1,4 @@
-import 'package:closed_network/Authentication/Email.dart';
+import 'package:closed_network/Authentication/ManualAuth.dart';
 import 'package:closed_network/HomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

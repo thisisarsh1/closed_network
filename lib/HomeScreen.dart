@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:closed_network/AboutScreen.dart';
-import 'package:closed_network/Authentication/Email.dart';
+import 'package:closed_network/Authentication/ManualAuth.dart';
 import 'package:closed_network/LoadingScreen.dart';
 import 'package:closed_network/MessagingScreen.dart';
 import 'package:closed_network/NotificationScreen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Components/SnackBar.dart';
@@ -182,7 +185,12 @@ class _HomePageState extends State<HomePage> {
 
               child: IconButton(
                 icon: const Icon(Icons.menu, color: Colors.white, size: 24), onPressed: () { Scaffold.of(context).openDrawer();
-              print(authService.value.currentUser);},
+              // _printInstallationAndToken();
+              print('${authService.value.currentUser}');
+
+
+              },
+
 
               )
 
@@ -280,4 +288,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 }

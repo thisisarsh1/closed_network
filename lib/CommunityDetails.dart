@@ -22,14 +22,16 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
       {
         "id": "1",
         "title": "Community Milestone Reached",
-        "description": "We've successfully grown to over 1000 active members contributing to meaningful discussions.",
+        "description":
+        "We've successfully grown to over 1000 active members contributing to meaningful discussions.",
         "timestamp": "2024-01-15",
         "priority": "high"
       },
       {
         "id": "2",
         "title": "New Discussion Guidelines",
-        "description": "Updated community guidelines to ensure better quality discussions and engagement.",
+        "description":
+        "Updated community guidelines to ensure better quality discussions and engagement.",
         "timestamp": "2024-01-10",
         "priority": "medium"
       }
@@ -96,7 +98,6 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-
     _fadeController.forward();
     _slideController.forward();
   }
@@ -202,23 +203,25 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
             spacing: 8,
             runSpacing: 8,
             children: (widget.community['tags'] as List)
-                .map<Widget>((tag) => Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey[800]!),
-              ),
-              child: Text(
-                tag,
-                style: GoogleFonts.sora(
-                  color: Colors.grey[300],
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                .map<Widget>(
+                  (tag) => Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.grey[900],
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey[800]!),
+                ),
+                child: Text(
+                  tag,
+                  style: GoogleFonts.sora(
+                    color: Colors.grey[300],
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ))
+            )
                 .toList(),
           ),
           const SizedBox(height: 20),
@@ -246,7 +249,11 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
 
   Widget _buildStatsSection() {
     final stats = [
-      {'icon': Icons.group, 'label': 'Members', 'value': widget.community['members'].toString()},
+      {
+        'icon': Icons.group,
+        'label': 'Members',
+        'value': widget.community['members'].toString()
+      },
       {'icon': Icons.chat_bubble_outline, 'label': 'Discussions', 'value': '156'},
       {'icon': Icons.radio_button_checked, 'label': 'Online', 'value': '42'},
     ];
@@ -255,7 +262,9 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
       position: Tween<Offset>(
         begin: const Offset(0, 0.3),
         end: Offset.zero,
-      ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut)),
+      ).animate(
+        CurvedAnimation(parent: _slideController, curve: Curves.easeOut),
+      ),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -265,11 +274,15 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: stats.map((stat) => _buildStatItem(
-            stat['icon'] as IconData,
-            stat['label'] as String,
-            stat['value'] as String,
-          )).toList(),
+          children: stats
+              .map(
+                (stat) => _buildStatItem(
+              stat['icon'] as IconData,
+              stat['label'] as String,
+              stat['value'] as String,
+            ),
+          )
+              .toList(),
         ),
       ),
     );
@@ -304,9 +317,9 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
     return _buildSection(
       "Announcements",
       Icons.campaign,
-      (_mockData['announcements'] as List).map((announcement) =>
-          _buildAnnouncementCard(announcement)
-      ).toList(),
+      (_mockData['announcements'] as List)
+          .map((announcement) => _buildAnnouncementCard(announcement))
+          .toList(),
       onSeeAll: () => _navigateToFullList("Announcements"),
     );
   }
@@ -315,9 +328,10 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
     return _buildSection(
       "Recent Discussions",
       Icons.forum,
-      (_mockData['discussions'] as List).take(3).map((discussion) =>
-          _buildDiscussionCard(discussion)
-      ).toList(),
+      (_mockData['discussions'] as List)
+          .take(3)
+          .map((discussion) => _buildDiscussionCard(discussion))
+          .toList(),
       onSeeAll: () => _navigateToFullList("Discussions"),
     );
   }
@@ -326,14 +340,15 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
     return _buildSection(
       "Top Contributors",
       Icons.leaderboard,
-      (_mockData['contributors'] as List).map((contributor) =>
-          _buildContributorCard(contributor)
-      ).toList(),
+      (_mockData['contributors'] as List)
+          .map((contributor) => _buildContributorCard(contributor))
+          .toList(),
       showSeeAll: false,
     );
   }
 
-  Widget _buildSection(String title, IconData icon, List<Widget> children, {VoidCallback? onSeeAll, bool showSeeAll = true}) {
+  Widget _buildSection(String title, IconData icon, List<Widget> children,
+      {VoidCallback? onSeeAll, bool showSeeAll = true}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -369,10 +384,12 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
           ],
         ),
         const SizedBox(height: 16),
-        ...children.map((child) => Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: child,
-        )),
+        ...children.map(
+              (child) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: child,
+          ),
+        ),
       ],
     );
   }
@@ -394,7 +411,9 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
                 width: 4,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: announcement['priority'] == 'high' ? Colors.red : Colors.orange,
+                  color: announcement['priority'] == 'high'
+                      ? Colors.red
+                      : Colors.orange,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -468,7 +487,8 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
                   ),
                 ),
                 const Spacer(),
-                Icon(Icons.chat_bubble_outline, size: 14, color: Colors.grey[600]),
+                Icon(Icons.chat_bubble_outline,
+                    size: 14, color: Colors.grey[600]),
                 const SizedBox(width: 4),
                 Text(
                   "${discussion['replies']}",
@@ -548,13 +568,16 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: contributor['rank'] == 1 ? Colors.amber.withOpacity(0.1) : Colors.grey[800],
+              color: contributor['rank'] == 1
+                  ? Colors.amber.withOpacity(0.1)
+                  : Colors.grey[800],
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               "#${contributor['rank']}",
               style: GoogleFonts.sora(
-                color: contributor['rank'] == 1 ? Colors.amber : Colors.grey[400],
+                color:
+                contributor['rank'] == 1 ? Colors.amber : Colors.grey[400],
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
               ),
@@ -578,7 +601,7 @@ class _CommunityDetailsPageState extends State<CommunityDetailsPage>
         },
         icon: Icon(_isJoined ? Icons.check : Icons.add),
         label: Text(
-          _isJoined ? "Joined" : "Join Community",
+          _isJoined ? "Applied" : "Apply",
           style: GoogleFonts.sora(fontWeight: FontWeight.w600),
         ),
       ),

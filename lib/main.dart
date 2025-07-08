@@ -1,22 +1,54 @@
-import 'package:closed_network/Authentication/Email.dart';
+import 'package:closed_network/Authentication/ManualAuth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Authentication/GoogleLogin.dart';
-import 'firebase_options.dart';
+import 'dart:io';
 
+import 'Authentication/GoogleLogin.dart';
+import 'Notification.dart';
+import 'firebase_options.dart';
 import 'LoadingScreen.dart';
-import 'HomeScreen.dart'; // keep if you navigate there later
+import 'HomeScreen.dart';
 
 Future<void> main() async {
-  // Must come first when you await anything before runApp.
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialise Firebase once, synchronously, before the app starts.
+  // ✅ Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // ✅ Request notification permission
+  await FirebaseMessaging.instance.requestPermission();
+
+  // ✅ Safely get FCM token (handles iOS APNs token delay)
+  await getFCMTokenSafely();
+
   runApp(const MyApp());
+}
+
+Future<void> getFCMTokenSafely() async {
+  final messaging = FirebaseMessaging.instance;
+
+  if (Platform.isIOS) {
+    String? apnsToken;
+    int tries = 0;
+
+    while (apnsToken == null && tries < 50) {
+      apnsToken = await messaging.getAPNSToken();
+      await Future.delayed(const Duration(milliseconds: 200));
+      tries++;
+    }
+
+    if (apnsToken == null) {
+      print("❌ APNs token not available.");
+      return;
+    }
+  }
+
+  final token = await messaging.getToken();
+  print("📩 FCM Token: $token");
 }
 
 class MyApp extends StatelessWidget {
@@ -27,51 +59,36 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Closed Network',
       debugShowCheckedModeBanner: false,
-
-      // ---------- Global theme ----------
       theme: ThemeData(
-        // Dark base so black surfaces inherit correct contrast.
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black,           // Black – main background
-        cardColor: const Color(0xFF2B2B2B),             // Charcoal – cards
-        dividerColor: Colors.grey.shade700,             // Dim Grey – dividers
-        primaryColor: Colors.tealAccent,                // TealAccent – primary accent
-        iconTheme: const IconThemeData(
-          color: Colors.tealAccent,                     // Icons & highlights
-        ),
-
-        // Text styles
+        scaffoldBackgroundColor: Colors.black,
+        cardColor: const Color(0xFF2B2B2B),
+        dividerColor: Colors.grey.shade700,
+        primaryColor: Colors.tealAccent,
+        iconTheme: const IconThemeData(color: Colors.tealAccent),
         textTheme: GoogleFonts.soraTextTheme().copyWith(
-          // Primary text – white
           bodyLarge: const TextStyle(color: Colors.white),
           bodyMedium: const TextStyle(color: Colors.white),
-          // Secondary text – light grey
           bodySmall: TextStyle(color: Colors.grey.shade400),
         ),
-
-        // ColourScheme is useful for M3 widgets
         colorScheme: ColorScheme.dark(
           primary: Colors.tealAccent,
           secondary: Colors.tealAccent,
-          surface: const Color(0xFF2B2B2B),             // Charcoal surfaces
+          surface: const Color(0xFF2B2B2B),
           background: Colors.black,
-          onPrimary: Colors.black,                      // text/icons on teal
+          onPrimary: Colors.black,
           onSurface: Colors.white,
         ),
         useMaterial3: true,
       ),
-      // Show a lightweight loading screen first; push to HomeScreen when ready.
-
-      home:  Authgate(),
+      home: AuthGate(),
     );
   }
 }
-class Authgate extends StatelessWidget{
+
+class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-
-     return authService.value.isLoggedIn ? HomePage():LoadingScreen();
+    return authService.value.isLoggedIn ? HomePage() : LoadingScreen();
   }
-
 }
