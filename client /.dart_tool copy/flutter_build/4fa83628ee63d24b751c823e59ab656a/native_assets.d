@@ -1,0 +1,1 @@
+ /home/fareed-sayed/Documents/closed_network/.dart_tool/flutter_build/4fa83628ee63d24b751c823e59ab656a/native_assets.yaml: 
